@@ -61,6 +61,17 @@ Lets say we have an expressa collection named 'post':
 | api.post.update("ef3f3", {foo:"foo"}) | `PUT    /api/post/ef3fe               ` | updates post-item with id 'ef3f3' from `{foo:"bar"}` to `{foo:"foo"}`                                                                                                             |
 | api.post.delete("ef3f3")              | `DELETE /api/post/ef3fe               ` | deletes post-item with id 'ef3f3' from collection                                                                                                                                 |
 
+## Adding custom endpoints
+
+Easily add custom express endpoints (`/foo/bar` e.g.) like so:
+
+    api.doFooBar = expressaClient.prototype.request.bind('post', '/foo/bar')
+    api.doFooBar({foo:"bar"}).then(console.log)  
+    
+    api.doRemoteFoo = expressaClient.prototype.request.bind('post', 'http://foo.com/foo' )
+    api.doRemoteFoo({foo:"bar"}, {myqueryvar:"foo"}, {"Content-Type":"application/xml"})
+    .then(console.log)  
+
 ## Sandboxing 
 
 In order to speed up frontend- and backend-development, sandboxing endpoints can enable parallel development:
