@@ -29,18 +29,18 @@ Add this in your browser:
     <script type="text/javascript" src="/api/client.js"></script>
     <script type="text/javascript">
 
-      var api = new expressaClient()
-      api.login("foo@bar.com", "mypassword")
-      .then( function(){                      // loggedin
-
-        api.post.all()                        // fetch post collection
-        .then(function(posts){                // (performs GET /api/post)
-          console.dir(posts)
-        })
-        .catch(alert)                         // error function
-
-      })
-      .catch(alert)                           // not logged in
+      var api = new expressaClient()                    // to connect to other host use: new expressaClient("http://foo.com/api") 
+      api.login("foo@bar.com", "mypassword")            //
+      .then( function(){                                // loggedin
+                                                        //
+        api.post.all()                                  // fetch post collection
+        .then(function(posts){                          // (performs GET /api/post)
+          console.dir(posts)                            //
+        })                                              //
+        .catch(alert)                                   // error function
+                                                        //
+      })                                                //
+      .catch(alert)                                     // not logged in
 
     </script>
 
