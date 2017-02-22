@@ -1,0 +1,28 @@
+{
+  "name": "expressa-client",
+  "version": "1.0.3",
+  "description": "Hasslefree Expressa (REST) client for nodejs & the browser, which automatically maps endpoints to functions",
+  "main": "index.js",
+  "directories": {
+    "test": "set -ex; for test in test/tests/*; do $test; done"
+  },
+  "scripts": {
+    "test": "set -ex; for test in test/tests/*; do $test; done"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderofsalvation/expressa-swagger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coderofsalvation/expressa-swagger/issues"
+  },
+  "homepage": "https://github.com/coderofsalvation/expressa-swagger#readme",
+  "dependencies": {
+    "restglue": "^1.0.14",
+    "superagent": "^3.3.1",
+    "swagger-ui": "^2.2.8"
+  }
+}
