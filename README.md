@@ -30,8 +30,8 @@ Add this in your browser:
     <script type="text/javascript">
 
       var api = new expressaClient()                    // to connect to other host use: new expressaClient("http://foo.com/api") 
-      api.login("foo@bar.com", "mypassword")            //
-      .then( function(){                                // loggedin
+      api.init("foo@bar.com", "mypassword")             // use api.init() to login as anonymous user or login as last-loggedin user (token is cached in localstorage)
+      .then( function(){                                // 
                                                         //
         api.post.all()                                  // fetch post collection
         .then(function(posts){                          // (performs GET /api/post)
@@ -87,16 +87,16 @@ then in your microservice put:
 
     var expressaClient = require('expressa-client').client
     var api = new expressaClient('http://localhost:3000/api')
-    api.login("foo@bar.com", "mypassword")
-    .then( function(){
-       
+    api.init("foo@bar.com", "mypassword")                        // pass token or credentials
+    .then( function(){                                          // HINT: token is in api.headers after auth 
+
       api.post.all()                        // fetch 'post' collection 
       .then(function(posts){                // (performs GET /api/post)
         console.dir(posts)
       })
       .catch(console.error)                 // error function
-
     })
+    .catch(console.error)                   // error: not logged in
 
 ## Todo 
 

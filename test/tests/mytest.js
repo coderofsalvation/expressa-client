@@ -4,9 +4,14 @@
 
 var expressaClient = require('./../../.').client
 var api = new expressaClient('http://localhost:3000/api')
-api.login("foo@bar.com", "mypassword")
-.then( function(){
+api.init("foo@bar.com", "mypassword")                        // pass token or credentials
+.then( function(){                                       // HINT: token is in api.headers after auth 
 
-  console.log("jaaa")  
+  api.post.all()                        // fetch 'post' collection 
+  .then(function(posts){                // (performs GET /api/post)
+    console.dir(posts)
+  })
+  .catch(console.error)                 // error function
 
 })
+.catch(console.error)

@@ -1,6 +1,6 @@
 {
   "name": "expressa-client",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Hasslefree Expressa (REST) client for nodejs & the browser, which automatically maps endpoints to functions",
   "main": "index.js",
   "directories": {
