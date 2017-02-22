@@ -38,6 +38,7 @@ Add this in your browser:
           console.dir(posts)                            //
         })                                              //
         .catch(alert)                                   // error function
+        api.logout(console.log)                         //
                                                         //
       })                                                //
       .catch(alert)                                     // not logged in

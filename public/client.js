@@ -41,6 +41,12 @@ expressaClient.prototype.initSchema = function(cb, errCb){
   .catch(errCb)
 }
 
+expressaClient.prototype.logout = function(cb){
+  if( this.headers['x-access-token'] ) delete this.headers['x-access-token']
+  if( hasLocalstorage ) window.localStorage.removeItem("expressa_token")
+  if( cb ) cb()
+}
+
 expressaClient.prototype.isLoggedIn = function(){
   if( this.headers['x-access-token'] ) return true 
   if( hasLocalstorage && window.localStorage.getItem("expressa_token") ){
