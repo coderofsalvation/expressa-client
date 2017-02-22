@@ -1,6 +1,6 @@
 Hasslefree Expressa (REST) client for nodejs & the browser, which automatically maps endpoints to functions.
 
-![](https://github.com/coderofsalvation/expressa-swagger/raw/master/expressa.png)
+![](https://github.com/coderofsalvation/expressa-client/raw/master/expressa.png)
 
 ## Features
 
