@@ -94,7 +94,7 @@ then in your microservice put:
       .then(function(posts){                // (performs GET /api/post)
         console.dir(posts)
       })
-      .catch(alert)                         // error function
+      .catch(console.error)                 // error function
 
     })
 
