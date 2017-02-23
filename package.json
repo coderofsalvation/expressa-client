@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coderofsalvation/expressa-swagger.git"
+    "url": "git+https://github.com/coderofsalvation/expressa-client.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/coderofsalvation/expressa-swagger/issues"
+    "url": "https://github.com/coderofsalvation/expressa-client/issues"
   },
-  "homepage": "https://github.com/coderofsalvation/expressa-swagger#readme",
+  "homepage": "https://github.com/coderofsalvation/expressa-client#readme",
   "dependencies": {
     "restglue": "^1.0.14",
     "superagent": "^3.3.1",
