@@ -18,11 +18,29 @@ Hasslefree Expressa (REST) client for nodejs & the browser, which automatically 
 
     npm install expressa-client --save
 
-Add this snippet to your expressa __server__ application:
+Add this snippet into your application-file *above* your expressa lines:
 
-    require('expressa-client').middleware({expressa:expressa,   app:app})   // <--- here
-    app.use('/api',  expressa)      
-    app.use('/admin',  expressa.admin())
+    require('expressa-client').middleware({expressa:expressa,   app:app})
+    // enable CORS *you dont need this line if you already have CORS setup*
+    app.use(function(req, res, next) {
+        var oneof = false      
+        if(req.headers.origin) {                                                                                                                                                                                                   
+            res.header('Access-Control-Allow-Origin', req.headers.origin)
+            oneof = true       
+        }
+        if(req.headers['access-control-request-method']) {
+            res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method'])
+            oneof = true
+        }
+        if(req.headers['access-control-request-headers']) {
+            res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers'])
+            oneof = true
+        }
+        if(oneof) res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365)
+        // intercept OPTIONS method     
+        if (oneof && req.method == 'OPTIONS') res.send(200)
+        else next()
+    })  
 
 Add this in your browser:
 
