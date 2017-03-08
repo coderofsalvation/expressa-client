@@ -57,10 +57,11 @@ expressaClient.prototype.isLoggedIn = function(){
 }
 
 expressaClient.prototype.init = function(email_or_token, password){
+  var hascredentials = arguments.length != 0
   if( arguments.length == 1 ) this.headers['x-access-token'] = arguments[0]
   var me = this
   return new Promise(function(resolve, reject){
-    if( me.isLoggedIn() || arguments.length == 0 ) return me.initSchema(resolve, reject)
+    if( me.isLoggedIn() || !hascredentials ) return me.initSchema(resolve, reject)
     me['user/login'].post({email:email_or_token, password:password})
     .then(function(data){
       if( !data.token) return reject("no token found in expressa response")
