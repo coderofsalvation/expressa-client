@@ -1,5 +1,6 @@
 var notbrowser = typeof window === 'undefined'
 var hasLocalstorage = ( !notbrowser && window.localStorage )
+var restglue
 
 if ( notbrowser ) restglue = require('restglue') 
 
