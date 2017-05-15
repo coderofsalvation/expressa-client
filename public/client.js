@@ -31,15 +31,17 @@ expressaClient.prototype.addEndpoint = function(endpoint){
   this[endpoint].update = this[endpoint].put
 }
 
-expressaClient.prototype.initSchema = function(cb, errCb){
+expressaClient.prototype.initSchema = function(){
   var me = this
-  this.schema.getAll()
-  .then(function(data){
-    delete data.getResponse
-    for( var endpoint in data ) me.addEndpoint(endpoint)
-  })
-  .then(cb)
-  .catch(errCb)
+	return new Promise( function(resolve, reject){
+		me.schema.getAll()
+		.then(function(data){
+			delete data.getResponse
+			for( var endpoint in data ) me.addEndpoint(endpoint)
+		})
+		.then(resolve)
+		.catch(reject)
+	})
 }
 
 expressaClient.prototype.logout = function(cb){
@@ -68,7 +70,14 @@ expressaClient.prototype.init = function(email_or_token, password){
       if( !data.token) return reject("no token found in expressa response")
       me.headers['x-access-token'] = data.token 
       if( hasLocalstorage ) window.localStorage.setItem("expressa_token", data.token)
-      me.initSchema(resolve, reject)
+			return Promise.all([
+				me.initSchema(),  
+				me['user/me'].all()
+			]).then( function(values){
+				var user = values[1]
+				if( user._id ) return resolve(user)
+				else reject("could not get user")
+			})
     })
     .catch(reject)
   })
