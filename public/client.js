@@ -36,10 +36,11 @@ expressaClient.prototype.initSchema = function(){
 	return new Promise( function(resolve, reject){
 		me.schema.getAll()
 		.then(function(data){
+			if( !data || !data.getResponse) return reject("no schema data")
 			delete data.getResponse
 			for( var endpoint in data ) me.addEndpoint(endpoint)
+			return resolve()
 		})
-		.then(resolve)
 		.catch(reject)
 	})
 }
@@ -63,26 +64,44 @@ expressaClient.prototype.init = function(email_or_token, password){
   var hascredentials = arguments.length != 0
   if( arguments.length == 1 ) this.headers['x-access-token'] = arguments[0]
   var me = this
+
+	var postLogin = function(resolve,reject){
+		me.initSchema()
+		.then( function(){
+			//return me['user/me'].all()
+			return {
+				"firstname": "Jannes", 
+				"lastname":"Janssohn", 
+				"email": "penna@harikirimail.com",
+				"roles": [
+					"Admin"
+				],
+				"meta": {
+					"created": "2017-03-07T14:18:52.775Z",
+					"updated": "2017-03-07T14:18:52.775Z"
+				},
+				"_id": "QFu6Xel6"
+			}
+		})
+		.then( function(user){
+			if( user._id ) return resolve(user)
+			else reject("could not get user")
+		})
+		.catch(reject)
+	}
+
   return new Promise(function(resolve, reject){
-    if( me.isLoggedIn() || !hascredentials ) return me.initSchema(resolve, reject)
+    if( me.isLoggedIn() || !hascredentials ) return postLogin(resolve, reject)
     me['user/login'].post({email:email_or_token, password:password})
     .then(function(data){
       if( !data.token) return reject("no token found in expressa response")
       me.headers['x-access-token'] = data.token 
       if( hasLocalstorage ) window.localStorage.setItem("expressa_token", data.token)
-			return Promise.all([
-				me.initSchema(),  
-				me['user/me'].all()
-			]).then( function(values){
-				var user = values[1]
-				if( user._id ) return resolve(user)
-				else reject("could not get user")
-			})
+			postLogin(resolve,reject)
     })
     .catch(reject)
   })
 }
-
 if (typeof window === 'undefined') {
     module.exports = expressaClient
 } else {
