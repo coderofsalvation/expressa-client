@@ -4,7 +4,8 @@ var restglue
 
 if ( notbrowser ) restglue = require('restglue') 
 
-var expressaClient = expressaClient = function(apiurl){
+var expressaClient = expressaClient = function(apiurl, customEndpoints){
+	var me = this
   this.url = apiurl || "/api"
   this.sandbox = {}
   this.headers = { 'Content-Type': 'application/json' }
@@ -15,6 +16,10 @@ var expressaClient = expressaClient = function(apiurl){
   this.addEndpoint("user/register")
   this.addEndpoint("schema")
   this.addEndpoint("swagger")
+	// add custom endpoints
+	customEndpoints = customEndpoints || []
+	if( typeof window !== 'undefined' && window.customEndpoints ) customEndpoints = window.customEndpoints
+	customEndpoints.map( function(path){ me.addEndpoint(path) } )
   return this
 }
 
@@ -68,20 +73,7 @@ expressaClient.prototype.init = function(email_or_token, password){
 	var postLogin = function(resolve,reject){
 		me.initSchema()
 		.then( function(){
-			//return me['user/me'].all()
-			return {
-				"firstname": "Jannes", 
-				"lastname":"Janssohn", 
-				"email": "penna@harikirimail.com",
-				"roles": [
-					"Admin"
-				],
-				"meta": {
-					"created": "2017-03-07T14:18:52.775Z",
-					"updated": "2017-03-07T14:18:52.775Z"
-				},
-				"_id": "QFu6Xel6"
-			}
+			return me['user/me'].all()
 		})
 		.then( function(user){
 			if( user._id ) return resolve(user)

@@ -47,7 +47,7 @@ Add this in your browser:
     <script type="text/javascript" src="/api/client.js"></script>
     <script type="text/javascript">
 
-      var api = new expressaClient()                    // to connect to other host use: new expressaClient("http://foo.com/api") 
+      var api = new expressaClient()                    // to connect to other host, or add extra andpoints use: new expressaClient("http://foo.com/api", ["foo/bar"]) 
       api.init("foo@bar.com", "mypassword")             // use api.init() to login as anonymous user or login as last-loggedin user (token is cached in localstorage)
       .then( function(user){                            // 
                                                         //
@@ -116,9 +116,9 @@ If you want to connect in node.js to an expressa-app microservices-style:
 then in your microservice put:
 
     var expressaClient = require('expressa-client').client
-    var api = new expressaClient('http://localhost:3000/api')
-    api.init("foo@bar.com", "mypassword")                        // pass token or credentials
-    .then( function(user){                                       // HINT: token is in api.headers after auth 
+    var api = new expressaClient('http://localhost:3000/api', ["foo/bar"]) // init, and pass some custom endpoints as well
+    api.init("foo@bar.com", "mypassword")                                  // pass token or credentials
+    .then( function(user){                                                 // HINT: token is in api.headers after auth 
 
       api.post.all()                        // fetch 'post' collection 
       .then(function(posts){                // (performs GET /api/post)

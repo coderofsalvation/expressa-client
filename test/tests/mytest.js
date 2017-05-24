@@ -3,10 +3,9 @@
 //var t = require('./../lib/util.js')
 
 var expressaClient = require('./../../.').client
-var api = new expressaClient('http://localhost:3001/api')
+var api = new expressaClient('http://localhost:3001/api', ["foo/bar"])
 api.init("penna@harikirimail.com", "penna")                        // pass token or credentials
 .then( function(user){                                       // HINT: token is in api.headers after auth 
-
   //api.post.all()                        // fetch 'post' collection 
   //.then(function(posts){                // (performs GET /api/post)
   //  console.dir(posts)
@@ -15,3 +14,5 @@ api.init("penna@harikirimail.com", "penna")                        // pass token
 
 })
 .catch(console.error)
+
+setTimeout( console.log.bind(this, "done"), 5000 )
