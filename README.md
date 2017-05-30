@@ -51,9 +51,9 @@ Add this in your browser:
       api.init("foo@bar.com", "mypassword")             // use api.init() to login as anonymous user or login as last-loggedin user (token is cached in localstorage)
       .then( function(user){                            // 
                                                         //
-        api.post.all()                                  // fetch post collection
-        .then(function(posts){                          // (performs GET /api/post)
-          console.dir(posts)                            //
+        api.mycollection.all()                          // fetch mycollection collection
+        .then(function(item){                           // (performs GET /api/mycollection)
+          console.dir(item)                             //
         })                                              //
         .catch(alert)                                   // error function
         api.logout(console.log)                         //
@@ -73,12 +73,12 @@ Lets say we have an expressa collection named 'post':
 
 | api function                          | performs                                | explanation                                                                                                                                                                       |
 |---------------------------------------|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| api.post.create({foo:"bar"})          | `POST   /api/post                     ` | adds `{"foo":"bar"}`-item to collection                                                                                                                                           |
-| api.post.all()                        | `GET    /api/post                     ` | returns array of all post-items                                                                                                                                                   |
-| api.post.find({name:"foo"})           | `GET    /api/post?query={"name":"foo"}` | returns array of all post-items which contain a key named `name` with value `foo`. [see mongo-query for more options](https://github.com/Turistforeningen/node-mongo-querystring) |
-| api.post.get("ef3fe")                 | `GET    /api/post/ef3fe               ` | returns object of post-item with id 'ef3fe'                                                                                                                                       |
-| api.post.update("ef3f3", {foo:"foo"}) | `PUT    /api/post/ef3fe               ` | updates post-item with id 'ef3f3' from `{foo:"bar"}` to `{foo:"foo"}`                                                                                                             |
-| api.post.delete("ef3f3")              | `DELETE /api/post/ef3fe               ` | deletes post-item with id 'ef3f3' from collection                                                                                                                                 |
+| api.mycollection.create({foo:"bar"})          | `POST   /api/mycollection                     ` | adds `{"foo":"bar"}`-item to collection                                                                                                                                           |
+| api.mycollection.all()                        | `GET    /api/mycollection                     ` | returns array of all mycollection-items                                                                                                                                                   |
+| api.mycollection.find({name:"foo"})           | `GET    /api/mycollection?query={"name":"foo"}` | returns array of all mycollection-items which contain a key named `name` with value `foo`. [see mongo-query for more options](https://github.com/Turistforeningen/node-mongo-querystring) |
+| api.mycollection.get("ef3fe")                 | `GET    /api/mycollection/ef3fe               ` | returns object of mycollection-item with id 'ef3fe'                                                                                                                                       |
+| api.mycollection.update("ef3f3", {foo:"foo"}) | `PUT    /api/mycollection/ef3fe               ` | updates mycollection-item with id 'ef3f3' from `{foo:"bar"}` to `{foo:"foo"}`                                                                                                             |
+| api.mycollection.delete("ef3f3")              | `DELETE /api/mycollection/ef3fe               ` | deletes mycollection-item with id 'ef3f3' from collection                                                                                                                                 |
 
 ## Adding custom endpoints
 
@@ -120,9 +120,9 @@ then in your microservice put:
     api.init("foo@bar.com", "mypassword")                                  // pass token or credentials
     .then( function(user){                                                 // HINT: token is in api.headers after auth 
 
-      api.post.all()                        // fetch 'post' collection 
-      .then(function(posts){                // (performs GET /api/post)
-        console.dir(posts)
+      api.mycollection.all()                // fetch 'mycollection' collection 
+      .then(function(items){                // (performs GET /api/mycollection)
+        console.dir(items)
       })
       .catch(console.error)                 // error function
     })
