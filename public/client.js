@@ -57,7 +57,7 @@ expressaClient.prototype.logout = function(cb){
 }
 
 expressaClient.prototype.isLoggedIn = function(){
-  if( this.headers['x-access-token'] ) return true 
+  if( this.headers['x-access-token'] && this.headers['x-access-token'].length ) return true 
   if( hasLocalstorage && window.localStorage.getItem("expressa_token") ){
     this.headers['x-access-token'] = window.localStorage.getItem("expressa_token")
     return true
@@ -73,13 +73,16 @@ expressaClient.prototype.init = function(email_or_token, password){
 	var postLogin = function(resolve,reject){
 		me.initSchema()
 		.then( function(){
-			return me['user/me'].all()
+			if( me.isLoggedIn() ) return me['user/me'].all()
 		})
 		.then( function(user){
-			if( user._id ) return resolve(user)
+			if( user._id ){
+				console.log({user:user})
+				return resolve(user)
+			} 
 			else reject("could not get user")
 		})
-		.catch(reject)
+		.catch(resolve)
 	}
 
   return new Promise(function(resolve, reject){
