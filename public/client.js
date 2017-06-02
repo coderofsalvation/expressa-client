@@ -86,10 +86,9 @@ expressaClient.prototype.init = function(email_or_token, password){
 	}
 
   return new Promise(function(resolve, reject){
-    if( me.isLoggedIn() ) {
-	  if( !hascredentials ) return postLogin(resolve, reject)
-	  else me.logout()
-    }
+  	if( !hascredentials ) return postLogin(resolve, reject)
+	else me.logout()
+
     me['user/login'].post({email:email_or_token, password:password})
     .then(function(data){
       if( !data.token) return reject("no token found in expressa response")
