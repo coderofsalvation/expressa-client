@@ -66,6 +66,7 @@ expressaClient.prototype.isLoggedIn = function(){
 }
 
 expressaClient.prototype.init = function(email_or_token, password){
+	console.dir(arguments)
   var hascredentials = arguments.length != 0
   if( arguments.length == 1 ) this.headers['x-access-token'] = arguments[0]
   var me = this
@@ -79,28 +80,31 @@ expressaClient.prototype.init = function(email_or_token, password){
 			if( user._id ){
 				console.log({user:user})
 				return resolve(user)
-			} 
-			else reject("could not get user")
+			}else resolve() 
 		})
 		.catch(resolve)
 	}
 
   return new Promise(function(resolve, reject){
   	if( !hascredentials ) return postLogin(resolve, reject)
-	else me.logout()
+	else if( hascredentials && !me.isLoggedIn() ) me.logout() // relogin
 
     me['user/login'].post({email:email_or_token, password:password})
     .then(function(data){
-      if( !data.token) return reject("no token found in expressa response")
+	  if( !data.token){
+		console.error("no token found in expressa response")
+		return postLogin(resolve, reject )
+	  } else me.user = data
       me.headers['x-access-token'] = data.token 
       if( hasLocalstorage ) window.localStorage.setItem("expressa_token", data.token)
-	  postLogin(resolve,reject)
+	  return postLogin(resolve, reject)
     })
-    .catch(reject)
+    .catch( postLogin.bind(this, resolve, reject) )
   })
 }
 if (typeof window === 'undefined') {
     module.exports = expressaClient
 } else {
     window.expressaClient = expressaClient 
+	console.error = console.error ? console.error : console.log
 }
