@@ -86,13 +86,16 @@ expressaClient.prototype.init = function(email_or_token, password){
 	}
 
   return new Promise(function(resolve, reject){
-    if( me.isLoggedIn() || !hascredentials ) return postLogin(resolve, reject)
+    if( me.isLoggedIn() ) {
+	  if( !hascredentials ) return postLogin(resolve, reject)
+	  else me.logout()
+    }
     me['user/login'].post({email:email_or_token, password:password})
     .then(function(data){
       if( !data.token) return reject("no token found in expressa response")
       me.headers['x-access-token'] = data.token 
       if( hasLocalstorage ) window.localStorage.setItem("expressa_token", data.token)
-			postLogin(resolve,reject)
+	  postLogin(resolve,reject)
     })
     .catch(reject)
   })
