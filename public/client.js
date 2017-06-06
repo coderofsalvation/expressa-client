@@ -77,7 +77,7 @@ expressaClient.prototype.init = function(email_or_token, password){
 			if( me.isLoggedIn() ) return me['user/me'].all()
 		})
 		.then( function(user){
-			if( user._id ){
+			if( user && user._id ){
 				console.log({user:user})
 				return resolve(user)
 			}else resolve() 
