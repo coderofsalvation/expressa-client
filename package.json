@@ -1,6 +1,6 @@
 {
   "name": "expressa-client",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "Hasslefree Expressa (REST) client for nodejs & the browser, which automatically maps endpoints to functions",
   "main": "index.js",
   "directories": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/coderofsalvation/expressa-swagger#readme",
   "dependencies": {
-    "restglue": "^1.0.17",
+    "restglue": "^1.0.18",
     "superagent": "^3.3.1",
     "swagger-ui": "^2.2.8"
   }
