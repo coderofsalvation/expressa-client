@@ -66,26 +66,30 @@ expressaClient.prototype.isLoggedIn = function(){
 }
 
 expressaClient.prototype.init = function(email_or_token, password){
-	console.dir(arguments)
 	var hascredentials = arguments.length != 0 && typeof email_or_token == "string"
 	var me = this
 
-	var postLogin = function(resolve,reject){
+	var postLogin = function(resolve,reject,err){
 		me.initSchema()
 			.then( function(){
+				if( err ) console.error("api.init(): "+err)
 				if( me.isLoggedIn() ) return me['user/me'].all()
 			})
 			.then( function(user){
 				if( user && user._id ){
-					console.log({user:user})
 					return resolve(user)
 				}else resolve() 
 			})
-			.catch(resolve)
+			.catch( (e) => {
+				me.logout()	// login was a failure
+				resolve()
+			})
 	}
+
 
 	return new Promise(function(resolve, reject){
 		var credentials
+		if( me.isLoggedIn() ) return postLogin(resolve, reject)
 		if( !hascredentials ){
 			return postLogin(resolve, reject)
 		}else{
@@ -104,7 +108,11 @@ expressaClient.prototype.init = function(email_or_token, password){
 				if( hasLocalstorage ) window.localStorage.setItem("expressa_token", data.token)
 				return postLogin(resolve, reject)
 			})
-			.catch( postLogin.bind(this, resolve, reject) )
+			.catch( (err) => {
+				console.log("jaaa: "+err)
+				if( err == "Forbidden" || err == "Unauthorized" ) this.logout()
+				postLogin(resolve, reject, err )
+			})
 	})
 }
 if (typeof window === 'undefined') {
