@@ -41,6 +41,7 @@ expressaClient.prototype.initSchema = function(){
 	return new Promise( function(resolve, reject){
 		me.schema.getAll()
 			.then(function(data){
+				me.schemas = data
 				if( !data || !data.getResponse) return reject("no schema data")
 				delete data.getResponse
 				for( var endpoint in data ) me.addEndpoint(endpoint)

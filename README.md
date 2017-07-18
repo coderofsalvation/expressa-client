@@ -50,6 +50,8 @@ Add this in your browser:
       var api = new expressaClient()                    // to connect to other host, or add extra andpoints use: new expressaClient("http://foo.com/api", ["foo/bar"]) 
       api.init("foo@bar.com", "mypassword")             // use api.init() to login as anonymous user or login as last-loggedin user (token is cached in localstorage)
       .then( function(user){                            // 
+																												//
+				console.dir(api.schemas)                        // dump schemas of endpoints
                                                         //
         api.mycollection.all()                          // fetch mycollection collection
         .then(function(item){                           // (performs GET /api/mycollection)
