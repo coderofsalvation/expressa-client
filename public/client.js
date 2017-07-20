@@ -81,7 +81,7 @@ expressaClient.prototype.init = function(email_or_token, password){
 					return resolve(user)
 				}else resolve() 
 			})
-			.catch( (e) => {
+			.catch( function(e){
 				me.logout()	// login was a failure
 				resolve()
 			})
@@ -109,7 +109,7 @@ expressaClient.prototype.init = function(email_or_token, password){
 				if( hasLocalstorage ) window.localStorage.setItem("expressa_token", data.token)
 				return postLogin(resolve, reject)
 			})
-			.catch( (err) => {
+			.catch( function(err){
 				console.log("jaaa: "+err)
 				if( err == "Forbidden" || err == "Unauthorized" ) this.logout()
 				postLogin(resolve, reject, err )
