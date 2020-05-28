@@ -23,6 +23,6 @@
   "dependencies": {
     "restglue": "^1.0.19",
     "superagent": "^3.3.1",
-    "swagger-ui": "^2.2.8"
+    "swagger-ui": "^3.25.5"
   }
 }
